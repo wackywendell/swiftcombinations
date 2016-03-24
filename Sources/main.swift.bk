@@ -1,0 +1,3 @@
+let plist: [Int] = []
+let combos: Combinations<Int> = Combinations(sequence: plist, count: 2)
+combos.print_combos()
