@@ -1,23 +1,23 @@
 import Foundation
 
-public class Combinations<T> : SequenceType {
+public class Combinations<T> : Sequence {
     let possibilities: [T]
     var k: Int
     
-    public init<S : SequenceType where S.Generator.Element == T>(sequence: S, count: Int) {
+    public init<S : Sequence where S.Iterator.Element == T>(sequence: S, count: Int) {
         self.possibilities = Array(sequence)
         self.k = count
     }
     
-    public func generate() -> AnyGenerator<[T]> {
+    public func makeIterator() -> AnyIterator<[T]> {
         var curix = 0
         if (self.k == 0 || self.possibilities.count == 0) {
-            return AnyGenerator<[T]> {
+            return AnyIterator<[T]> {
                 return nil
             }
         }
         if self.k == 1 {
-            return AnyGenerator<[T]> {
+            return AnyIterator<[T]> {
                 if curix < self.possibilities.count {
                     let ix = curix
                     curix += 1
@@ -27,9 +27,9 @@ public class Combinations<T> : SequenceType {
             }
         }
         let sub_list: [T] = Array(possibilities[1..<possibilities.count])
-        var sub_combos = Combinations(sequence: sub_list, count: self.k - 1).generate()
+        var sub_combos = Combinations(sequence: sub_list, count: self.k - 1).makeIterator()
         
-        return AnyGenerator<[T]> {
+        return AnyIterator<[T]> {
             if let sub_combo = sub_combos.next() {
                 return [self.possibilities[curix]] + sub_combo
             }
@@ -40,7 +40,7 @@ public class Combinations<T> : SequenceType {
             curix += 1
             
             let sub_list: [T] = Array(self.possibilities[curix+1..<self.possibilities.count])
-            sub_combos = Combinations(sequence: sub_list, count: self.k - 1).generate()
+            sub_combos = Combinations(sequence: sub_list, count: self.k - 1).makeIterator()
             
             if let sub_combo = sub_combos.next() {
                 return [self.possibilities[curix]] + sub_combo
