@@ -4,7 +4,7 @@ public class Combinations<T> : SequenceType {
     let possibilities: [T]
     var k: Int
     
-    init<S : SequenceType where S.Generator.Element == T>(sequence: S, count: Int) {
+    public init<S : SequenceType where S.Generator.Element == T>(sequence: S, count: Int) {
         self.possibilities = Array(sequence)
         self.k = count
     }
