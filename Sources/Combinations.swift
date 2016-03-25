@@ -1,6 +1,6 @@
 import Foundation
 
-class Combinations<T> : SequenceType {
+public class Combinations<T> : SequenceType {
     let possibilities: [T]
     var k: Int
     
@@ -9,7 +9,7 @@ class Combinations<T> : SequenceType {
         self.k = count
     }
     
-    func generate() -> AnyGenerator<[T]> {
+    public func generate() -> AnyGenerator<[T]> {
         var curix = 0
         if (self.k == 0 || self.possibilities.count == 0) {
             return AnyGenerator<[T]> {
@@ -51,7 +51,7 @@ class Combinations<T> : SequenceType {
         }
     }
     
-    func print_combos() {
+    public func print_combos() {
         print("-- [")
         for cset in self {
             print("[", terminator: "")
